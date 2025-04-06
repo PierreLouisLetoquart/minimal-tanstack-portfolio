@@ -1,13 +1,15 @@
-import type { ReactNode } from "react";
+import * as React from "react";
 import {
   Outlet,
   createRootRoute,
   HeadContent,
   Scripts,
+  ScriptOnce,
 } from "@tanstack/react-router";
 
 import appCss from "@/styles/app.css?url";
 import { AppLayout } from "@/components/AppLayout";
+import { getThemeCookie, useThemeStore } from "@/components/ThemeToggle";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -43,6 +45,12 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  staleTime: Infinity,
+  loader: async () => {
+    return {
+      themeCookie: await getThemeCookie(),
+    };
+  },
   component: RootComponent,
 });
 
@@ -54,10 +62,24 @@ function RootComponent() {
   );
 }
 
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
+  const { themeCookie } = Route.useLoaderData();
+
+  React.useEffect(() => {
+    useThemeStore.setState({ mode: themeCookie });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const themeClass = themeCookie === "dark" ? "dark" : "";
+
   return (
-    <html>
+    <html lang="en" className={themeClass}>
       <head>
+        {themeCookie === "auto" ? (
+          <ScriptOnce
+            children={`window.matchMedia('(prefers-color-scheme: dark)').matches ? document.documentElement.classList.add('dark') : null`}
+          />
+        ) : null}
         <HeadContent />
       </head>
       <body>

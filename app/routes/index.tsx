@@ -4,6 +4,8 @@ import { LinkButton } from "@/components/LinkButton";
 import { Section, SectionList, SectionTitle } from "@/components/Section";
 
 import d from "@/content.json";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Separator } from "@/components/Separator";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -32,12 +34,17 @@ function Home() {
         <SectionList fallback={"No articles yet."} list={d.articles} />
       </Section>
 
-      <div className="space-x-8">
+      <div className="flex items-center gap-8">
         {d.socials.map((social) => (
           <LinkButton key={200 + Math.random() * 100} href={social.url}>
             {social.title}
           </LinkButton>
         ))}
+        <Separator
+          className="data-[orientation=vertical]:h-4"
+          orientation="vertical"
+        />
+        <ThemeToggle />
       </div>
     </div>
   );
