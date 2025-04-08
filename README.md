@@ -31,6 +31,6 @@ type ListElem = {
   date: string;
   title: string;
   url: string; // (default to "#")
-  external: bool; // (default to true)
+  external: bool; // (default to false)
 };
 ```

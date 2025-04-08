@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Link } from "@tanstack/react-router";
 
 interface SectionProps extends React.ComponentPropsWithoutRef<"div"> {}
 
@@ -38,5 +39,47 @@ export function SectionList({
         </div>
       ))}
     </div>
+  );
+}
+
+interface SectionListLinkProps extends React.ComponentPropsWithoutRef<"a"> {
+  article?: boolean;
+}
+
+export function SectionListLink({
+  className,
+  article,
+  children,
+  href,
+  ...props
+}: SectionListLinkProps) {
+  if (!article) {
+    return (
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          "text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      to={`/blog/$slug`}
+      params={{ slug: href || "#" }}
+      className={cn(
+        "text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </Link>
   );
 }

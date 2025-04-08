@@ -3,7 +3,14 @@
   "bio": "Software Engineer",
   "today": "I am a french software engineer, passionate about innovation and creation; when I'm not programming, I enjoy trail running and writing articles! Currently working on some side projects...",
   "projects": [],
-  "articles": [],
+  "articles": [
+    {
+      "title": "Hello World",
+      "date": "2023-10-01",
+      "url": "hello-world",
+      "external": false
+    }
+  ],
   "socials": [
     {
       "title": "LinkedIn",
